@@ -1,8 +1,54 @@
-<h1>Todo fine</h1>
+<mat-sidenav-container fullscreen>
+
+  <mat-sidenav #sidenav mode="push" [ngStyle]="{ width: '250px' }">
+    <mat-toolbar class="second-color">
+      <span>Menu</span>
+      <span class="spacer"></span>
+
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <mat-list-item
+      *ngFor="let item of sidebarItems"
+      [routerLink]="item.url"
+      (click)="sidenav.toggle()"
+      >
+      <mat-icon>{{ item.icon }}</mat-icon>
+      {{ item.lable }}
+      </mat-list-item>
+    </mat-nav-list>
+
+  </mat-sidenav>
 
 
 
-<!-- Mediante el Router Outlet podemos renderizar las rutas hijas -->
-<router-outlet></router-outlet>
+  <mat-toolbar class="primary-color">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span class="spacer"></span>
+
+    <button mat-button>
+      Logout
+    </button>
+  </mat-toolbar>
+
+  <div class="container">
+    <!-- Mediante el Router Outlet podemos renderizar las rutas hijas -->
+    <router-outlet></router-outlet>
+  </div>
+
+
+
+</mat-sidenav-container>
+
+
+
+
 
 

@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: LayoutPageComponent,
     children: [
-      { path: 'add-hero',component: NewPageComponent },
+      { path: 'new-hero',component: NewPageComponent },
       // Para la visualizacion de un componente en todo el layout
       { path: 'search', component: SearchPageComponent },
       { path: 'edit/:id',component: NewPageComponent },
