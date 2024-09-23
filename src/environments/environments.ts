@@ -1,6 +1,6 @@
 
 export const environments = {
-  baseUrl: 'http://localhost3000'
+  baseUrl: 'http://localhost:3000'
 }
 
 
