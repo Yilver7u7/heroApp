@@ -70,6 +70,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
+              "fileReplacement": [
+                {
+                  "replace": "src/environments/environments.ts",
+                  "with": "src/environments/environments.prod.ts"
+                }
+              ],
               "buildTarget": "heroApp:build:production"
             },
             "development": {
