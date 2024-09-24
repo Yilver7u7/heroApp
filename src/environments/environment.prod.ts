@@ -1,6 +1,6 @@
 
 export const environment = {
-  baseUrl: ''
+  baseUrl: 'http://hero-app-iota.vercel.app'
 }
 
 
