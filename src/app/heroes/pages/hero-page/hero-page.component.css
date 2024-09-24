@@ -1,0 +1,40 @@
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr; /* Una columna por defecto */
+  gap: 16px; /* Espacio entre las tarjetas */
+  justify-content: center;
+  align-items: start;
+}
+
+/* Para pantallas más grandes */
+@media (min-width: 600px) {
+  .grid-layout {
+    grid-template-columns: 1fr 1fr; /* Dos columnas en pantallas medianas y grandes */
+  }
+}
+
+.hero-image-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px; /* Limita el ancho de la tarjeta de la imagen */
+  margin: 0 auto; /* Centra la tarjeta en pantallas pequeñas */
+}
+
+.hero-info-card {
+  width: 100%;
+  max-width: 400px; /* Limita el ancho de la tarjeta de información */
+  margin: 0 auto; /* Centra la tarjeta en pantallas pequeñas */
+}
+
+mat-card-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Asegura que la imagen no se deforme */
+}
+
+
+.fondo{
+  background-color: #a2d2ff;
+}
