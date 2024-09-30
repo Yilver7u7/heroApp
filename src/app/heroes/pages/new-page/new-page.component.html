@@ -74,7 +74,7 @@
 
 
     <mat-card>
-      <img src="" alt="imagen del heroe" mat-card-image>
+      <img [src]="currentHero | heroImage" alt="imagen del heroe" mat-card-image>
     </mat-card>
 
   </div>
@@ -82,5 +82,7 @@
 </div>
 
 
-
+<pre>
+  {{currentHero | json}}
+</pre>
 
