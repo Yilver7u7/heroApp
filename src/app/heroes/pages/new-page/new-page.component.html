@@ -1,1 +1,86 @@
-<p>new-page works!</p>
+<h1>
+  Editar / Agregar
+  Heroe
+  <small>Superman</small>
+</h1>
+
+<mat-divider class="mb-2"></mat-divider>
+
+<div class="grid">
+
+  <div class="col-12 sm:col-6">
+    <mat-card>
+      <mat-card-content>
+
+        <!-- Hacemos el enlace para que pueda leer el formulario -->
+        <form class="grid" [formGroup]="heroForm" (ngSubmit)="onSumit()">
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Superheroe</mat-label>
+            <!-- El formControl son cada una de las pequeñas
+             piezas de nuestro FormGroup que va a poder vincular
+              -->
+            <input formControlName="superhero" matInput type="text" required>
+          </mat-form-field>
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Alter Ego</mat-label>
+            <input formControlName="alter_ego" matInput type="text" required>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Primera Aparicion</mat-label>
+            <input formControlName="first_appearance" matInput type="text" required>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Alternative image</mat-label>
+            <input formControlName="alt_img" matInput type="text" required>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Creador</mat-label>
+            <mat-select formControlName="publisher" required="">
+              <mat-option *ngFor="let publicsher of publishers"
+              [value]="publicsher.id">
+                {{ publicsher.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+
+        <div class="flex justify-content-bewteen">
+          <button mat-flat-button
+          color="warn">
+            Borrar
+          </button>
+
+          <span class="spacer"></span>
+
+          <button
+          (click) = "onSumit()"
+          mat-flat-button
+          class="azulito">
+          <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 sm:col-6">
+
+
+    <mat-card>
+      <img src="" alt="imagen del heroe" mat-card-image>
+    </mat-card>
+
+  </div>
+
+</div>
+
+
+
+
