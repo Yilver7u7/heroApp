@@ -1,9 +1,12 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Hero, Publisher } from '../../interfaces/hero.interface';
 import { HerosService } from '../../services/heroes.services';
-import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { filter, switchMap, tap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'heroes-new-page',
@@ -31,9 +34,11 @@ export class NewPageComponent implements OnInit {
   ]
 
   constructor(
-    private herosService: HerosService,
     private ActivatedRoute: ActivatedRoute,
-    private router: Router
+    private herosService: HerosService,
+    private router: Router,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   //Esto basicamente convierte los valores que tenemos en nuestro
@@ -52,8 +57,7 @@ export class NewPageComponent implements OnInit {
      if( this.currentHero.id ){
       this.herosService.updateHero( this.currentHero )
       .subscribe( hero => {
-
-        // TODOL mostrar mensaje
+        this.showSnackbar(`${hero.superhero} updated!`)
       });
       return
      }
@@ -62,9 +66,59 @@ export class NewPageComponent implements OnInit {
      this.herosService.addHero( this.currentHero )
      .subscribe( hero => {
         // TODO: Mostrar mensaje se creo correctamente
+        this.router.navigate([`/heroes/edit`, hero.id])
+        this.showSnackbar(`${hero.superhero} created!`)
       });
 
   }
+
+  onDeleteHero(){
+    if( !this.currentHero.id ) throw Error('Hero id is requierd');
+
+    const dialogRef = this.dialog.open(  ConfirmDialogComponent,{
+      data: this.heroForm.value
+    });
+
+    dialogRef.afterClosed()
+    .pipe(
+      // Filtro mediante los pipes de RXJS
+      // Con esto nos aseguramos que la confirmacion de eliminacion
+      // SI es deseada por el usaurio
+      filter( (result: boolean) =>  result),
+      // Una vez confirmada la validacion disparamos la consulta
+      switchMap( () => this.herosService.deleteHeroById(this.currentHero.id)),
+      // Validamos el resultado para saber si ya fue eliminado anteriormente
+      filter( (wasDeleted:boolean) => wasDeleted),
+    )
+    //Al detectar que si fue eliminado, pues regresa al usuario a la lista
+    .subscribe(result => {
+      this.router.navigate(['/heroes']);
+    })
+
+    // Esto es para cuando el usuario confirma el dialogo
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   console.log({result});
+
+    //   this.herosService.deleteHeroById(this.currentHero.id)
+    //   .subscribe(
+    //     result => {
+    //       if( result )
+    //         this.router.navigateByUrl('/heroes');
+    //     }
+    //   );
+    // })
+
+
+  }
+
+
+  showSnackbar( message: string ):void{
+    this.snackbar.open( message, 'DONE', {
+      duration: 2000
+    })
+  }
+
 
   ngOnInit(): void {
 

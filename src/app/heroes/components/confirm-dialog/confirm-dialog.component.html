@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>¿Estas seguro de eliminar </h2>
+<mat-dialog-content>Este proceso no es reversible, esta a punto de eliminar {{ data.superhero }}</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <span class="spacer"></span>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button color="primary" (click)="onConfirm()">Borrar</button>
+</mat-dialog-actions>

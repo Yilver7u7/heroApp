@@ -30,7 +30,7 @@ export class HerosService {
 
   // La data se manda como segundo argumento
   addHero( hero: Hero ): Observable<Hero>{
-    return this.http.post<Hero>(`${ this.baseUrl }/heroes`, hero)
+    return this.http.post<Hero>(`${ this.baseUrl }/heroes`, hero );
   }
 
   // Solo actualiza los datos que vienen del objeto
@@ -38,19 +38,20 @@ export class HerosService {
     if( !hero.id ) throw Error("Hero is required");
     // Se manda el Id para encontrar el objero y luego los
     // datos o parametros que se van a actualizar
-    return this.http.patch<Hero>(`${ this.baseUrl }/heroes`, hero)
+    return this.http.patch<Hero>(`${ this.baseUrl }/heroes/${ hero.id }`, hero );
   }
+
 
   // En estos casos retornamos un booleano para asegurarnos
   // que el valor haya sido eliminado correctamente
   deleteHeroById ( id: string): Observable<boolean>{
 
-    return this.http.delete(`${ this.baseUrl }/heroes`)
+    return this.http.delete(`${ this.baseUrl }/heroes/${ id }`)
     .pipe(
-      // Si la consulta sale mal regresara un false
-      catchError( err => of ( false ) ),
       // Si por el contrario llega hasta este punto devuelve un true
-      map( resp => true)
+      map( resp => true),
+      // Si la consulta sale mal regresara un false
+      catchError( err => of ( false ) )
     )
   }
 
