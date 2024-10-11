@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
 import { User } from '../interfaces/user.interface';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -22,15 +22,33 @@ export class AuthService {
     // return {...this.user};
   }
 
-  login( email: string, password: string):Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/users/1`)
-    .pipe(
-      tap( user =>  this.user = user ),
-      tap( user => localStorage.setItem('token', 'Yilverwashere' ))
-    );
+  login( email: string, password: string ):Observable<User> {
+    // http.post('login',{ email, password });
+    return this.http.get<User>(`${ this.baseUrl }/users`)
+      .pipe(
+        tap( user => this.user = user ),
+        tap( user => localStorage.setItem('token', 'YilverWashere' )),
+      );
   }
     //Usualmente se manda una consulta post para verificar
     // Que es usuario se encuentre en la base de datos
+
+
+    //Aqui hacemos la validacion para los Guard
+    checkAuthentication(): Observable<boolean> {
+
+      if ( !localStorage.getItem('token') ) return of(false);
+
+      const token = localStorage.getItem('token');
+
+      return this.http.get<User>(`${ this.baseUrl }/users/1`)
+        .pipe(
+          tap( user => this.user = user ),
+          map( user => !!user ),
+          catchError( err => of(false) )
+        );
+
+    }
 
   logout(){
     this.user = undefined;

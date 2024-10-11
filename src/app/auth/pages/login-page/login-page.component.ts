@@ -10,17 +10,17 @@ import { Component } from '@angular/core';
 export class LoginPageComponent {
 
   constructor(
-    private authService:AuthService,
-    private router:Router
-   ){}
+    private authService: AuthService,
+    private router: Router
+  ){}
 
-  onLogion(){
-    this.authService.login('fernando@gmail.com', 'fernando').
-    subscribe( user => {
+  onLogin(): void {
 
-      this.router.navigate(['/']);
+    this.authService.login('fernando@gmail.com','123456')
+      .subscribe( user => {
+        this.router.navigate(['/']);
+      });
 
-    } )
   }
 
 
